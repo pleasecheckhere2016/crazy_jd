@@ -89,7 +89,9 @@ function main() {
         if (file.startsWith("jd_") && file.endsWith(".js")) {
 
             try {
+                console.log(`开始执行 ${file}`);
                 exec(`node ${file} >> ${result_path}`);
+                console.log(`结束执行 ${file}`);
 
             } catch (err) {
                 fs.writeFileSync(error_path, err, 'utf8')
