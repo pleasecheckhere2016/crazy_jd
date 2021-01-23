@@ -98,7 +98,8 @@ function main() {
     //
     //         try {
     //             console.log(`开始执行 ${file}`);
-    //             exec(`node '${file}' >> '${result_path}'`);
+    //             let jsPath = "./" + file;
+    //             exec(`node '${jsPath}' >> '${result_path}'`);
     //
     //             console.log(`结束执行 ${file}`);
     //
@@ -111,7 +112,8 @@ function main() {
     // }
 
 
-    exec(`node '${js_path}' >> '${result_path}'`);
+    exec(`node jd_car.js >> ${result_path}`);
+
 
 
     if (fs.existsSync(result_path)) {
