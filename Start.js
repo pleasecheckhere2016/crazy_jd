@@ -15,7 +15,7 @@ const dual_cookie = process.env.JD_DUAL_COOKIE
 const push_key = process.env.PUSH_KEY
 
 // 京东脚本文件
-const js_url = 'https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js'
+const js_url = 'https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_car.js'
 // 下载脚本路劲
 const js_path = './jd_car.js'
 // 脚本执行输出路劲
