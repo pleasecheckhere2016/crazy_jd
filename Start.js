@@ -9,15 +9,14 @@ function main() {
         if (file.startsWith("jd_") && file.endsWith(".js")) {
 
             try {
-                exec(`node ${file}`);
+                exec(`node ${file} >> ./success.txt`);
+
             } catch (e) {
-                console.log(e);
+                console.log(`执行出错 ${file}` + e);
             }
         }
 
     }
-    console.log("####################################")
-    console.log(process.env);
 
 }
 
