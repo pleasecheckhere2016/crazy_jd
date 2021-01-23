@@ -103,6 +103,7 @@ function main() {
                 console.log(`结束执行 ${file}`);
 
             } catch (err) {
+                console.log(`执行 ${file} 出错` + err);
                 fs.writeFileSync(error_path, err, 'utf8')
             }
         }
