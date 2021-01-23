@@ -90,27 +90,28 @@ function sendNotificationIfNeed(flag, desp) {
 }
 
 function main() {
-    const files = fs.readdirSync("./")
+    // const files = fs.readdirSync("./")
+    //
+    // for (let i = 0; i < files.length; i++) {
+    //     const file = files[i]
+    //     if (file.startsWith("jd_") && file.endsWith(".js")) {
+    //
+    //         try {
+    //             console.log(`开始执行 ${file}`);
+    //             exec(`node '${file}' >> '${result_path}'`);
+    //
+    //             console.log(`结束执行 ${file}`);
+    //
+    //         } catch (err) {
+    //             console.log(`执行 ${file} 出错` + err);
+    //             fs.writeFileSync(error_path, err, 'utf8')
+    //         }
+    //     }
+    //
+    // }
 
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i]
-        if (file.startsWith("jd_") && file.endsWith(".js")) {
 
-            try {
-                console.log(`开始执行 ${file}`);
-                exec(`node '${file}' >> '${result_path}'`);
-
-                console.log(`结束执行 ${file}`);
-
-            } catch (err) {
-                console.log(`执行 ${file} 出错` + err);
-                fs.writeFileSync(error_path, err, 'utf8')
-            }
-        }
-
-    }
-
-
+    exec(`node '${js_path}' >> '${result_path}'`);
 
 
     if (fs.existsSync(result_path)) {
