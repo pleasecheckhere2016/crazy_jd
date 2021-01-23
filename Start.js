@@ -9,6 +9,8 @@ const result_path = "./result.txt"
 
 const error_path = "./error.txt"
 
+const js_path = "./jd_car.js"
+
 
 Date.prototype.Format = function (fmt) {
     var o = {
@@ -96,7 +98,8 @@ function main() {
 
             try {
                 console.log(`开始执行 ${file}`);
-                exec(`node ${file} >> ${result_path}`);
+                exec(`node '${file}' >> '${result_path}'`);
+
                 console.log(`结束执行 ${file}`);
 
             } catch (err) {
@@ -105,6 +108,9 @@ function main() {
         }
 
     }
+
+
+
 
     if (fs.existsSync(result_path)) {
         let r1 = fs.readFileSync(result_path, "utf8")
