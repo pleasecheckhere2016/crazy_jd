@@ -10,7 +10,6 @@ const result_path = "./result.txt"
 const error_path = "./error.txt"
 
 
-
 Date.prototype.Format = function (fmt) {
     var o = {
         'M+': this.getMonth() + 1,
@@ -41,42 +40,49 @@ function dateFormat() {
 }
 
 
-
-function sendNotificationIfNeed() {
+function sendNotificationIfNeed(flag, desp) {
 
     if (!push_key) {
-        console.log(`执行任务结束! ${push_key}`); return;
+        console.log(`执行任务结束! ${push_key}`);
+        return;
     }
 
-    if (!fs.existsSync(result_path)) {
-        console.log('没有执行结果，任务中断!'); return;
+    if (!desp) {
+        console.log(`没有执行结果，任务中断，flag = ${flag}`);
+        return;
     }
 
     let text = "京东签到_" + dateFormat();
-    let desp = fs.readFileSync(result_path, "utf8")
+
+    if (flag) {
+        text = text + "_成功日志";
+    } else {
+        text = text + "_错误日志";
+
+    }
 
     // 去除末尾的换行
-    let SCKEY = push_key.replace(/[\r\n]/g,"")
+    let SCKEY = push_key.replace(/[\r\n]/g, "")
 
-    const options ={
-        uri:  `http://sc.ftqq.com/${SCKEY}.send`,
-        form: { text, desp },
+
+    const options = {
+        uri: `http://sc.ftqq.com/${SCKEY}.send`,
+        form: {text, desp},
         json: true,
         method: 'POST'
     }
 
-    rp.post(options).then(res=>{
+    rp.post(options).then(res => {
         const code = res['errno'];
         if (code == 0) {
             console.log("通知发送成功，任务结束！")
-        }
-        else {
+        } else {
             console.log(res);
             console.log("通知发送失败，任务中断！")
             fs.writeFileSync(error_path, JSON.stringify(res), 'utf8')
         }
-    }).catch((err)=>{
-        console.log("通知发送失败，任务中断！")
+    }).catch((err) => {
+        console.log("通知发送失败，任务中断！" + err)
         fs.writeFileSync(error_path, err, 'utf8')
     })
 }
@@ -100,9 +106,19 @@ function main() {
 
     }
 
+    if (fs.existsSync(result_path)) {
+        let r1 = fs.readFileSync(result_path, "utf8")
+        sendNotificationIfNeed(true, r1);
+        return;
+    }
+
+    if (fs.existsSync(error_path)) {
+        let error = fs.readFileSync(error_path, "utf8")
+        sendNotificationIfNeed(false, error)
+        return;
+    }
 
 
-    sendNotificationIfNeed();
 }
 
 main()
