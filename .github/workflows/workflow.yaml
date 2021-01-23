@@ -35,7 +35,7 @@ jobs:
         run: npm install
 
       - name: Run Script
-        run: node Start.js
+        run: node jd_car.js >> ./result.txt
 
       - name: Upload result file
         uses: actions/upload-artifact@master
