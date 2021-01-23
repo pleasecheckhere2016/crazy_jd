@@ -45,7 +45,7 @@ function dateFormat() {
 function sendNotificationIfNeed() {
 
     if (!push_key) {
-        console.log('执行任务结束!'); return;
+        console.log(`执行任务结束! ${push_key}`); return;
     }
 
     if (!fs.existsSync(result_path)) {
