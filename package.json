@@ -22,6 +22,7 @@
     "http-server": "^0.12.3",
     "qrcode-terminal": "^0.12.0",
     "request": "^2.88.2",
+    "request-promise": "^4.2.6",
     "tough-cookie": "^4.0.0",
     "tunnel": "0.0.6"
   }
