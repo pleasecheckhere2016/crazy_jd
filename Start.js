@@ -7,9 +7,12 @@ function main() {
     for (let i = 0; i < files.length; i++) {
         const file = files[i]
         if (file.startsWith("jd_") && file.endsWith(".js")) {
-            // exec(`node ${file} >> 1.txt`);
-            console.log(file);
 
+            try {
+                exec(`node ${file}`);
+            } catch (e) {
+                console.log(e);
+            }
         }
 
     }
