@@ -11,6 +11,9 @@ const error_path = "./error.txt"
 
 const js_path = "./jd_car.js"
 
+const skip_list = "jd_crazy_joy_coin.js,jd_immortal.js,jd_nian.js," +
+    "jd_nian_wechat.js,jd_superMarket.js,jd_lotteryMachine.js,jd_family.js";
+
 
 Date.prototype.Format = function (fmt) {
     var o = {
@@ -94,7 +97,7 @@ function main() {
 
     for (let i = 0; i < files.length; i++) {
         const file = files[i]
-        if (file.startsWith("jd_") && file.endsWith(".js")) {
+        if (file.startsWith("jd_") && file.endsWith(".js") && skip_list.indexOf(file) == -1) {
 
             try {
                 exec(`node ${file} >> ${result_path}`);

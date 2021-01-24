@@ -160,7 +160,7 @@ if ($.isNode()) {
     }, 8000);
   }
 
-  while (true) {
+  while (count < 1) {
     count++
     console.log(`============开始第${count}次挂机=============`)
     for (let i = 0; i < cookiesArr.length; i++) {
