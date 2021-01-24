@@ -108,13 +108,22 @@ function main() {
         let r1 = fs.readFileSync(result_path, "utf8")
         let strings = r1.split("\n");
 
-        let notify = "";
+        let notify = "### 成功执行的任务列表\r\n";
+
+        for (let i = 0; i < strings.length; i++) {
+            if (strings[i].indexOf("结束!") > -1) {
+                notify += ("- " + strings[i] + "\r\n");
+            }
+        }
+
+        notify += "### 含有失败的任务列表\r\n";
 
         for (let i = 0; i < strings.length; i++) {
             if (strings[i].indexOf("失败") > -1 || strings[i].indexOf("错误") > -1) {
-                notify += (strings[i] + "\r\n");
+                notify += ("- " + strings[i] + "\r\n");
             }
         }
+
         sendNotificationIfNeed("京东脚本执行结果通知", notify);
         return;
     }
