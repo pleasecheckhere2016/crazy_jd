@@ -8,7 +8,7 @@ on:
   #   branches:
   #     - master
   schedule:
-    - cron: 0 20 * * *
+    - cron: 0 05 * * *
   watch:
     types: started
 
@@ -20,6 +20,7 @@ env:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -37,6 +38,7 @@ jobs:
 
       - name: Run Script
         run: node Start.js
+        timeout-minutes: 30
 
       - name: Upload result file
         uses: actions/upload-artifact@master
