@@ -93,7 +93,7 @@ function main() {
         if (file.startsWith("jd_") && file.endsWith(".js") && skip_list.indexOf(file) == -1) {
 
             try {
-                // exec(`node ${file} >> ${result_path}`);
+                exec(`node ${file} >> ${result_path}`);
 
             } catch (err) {
                 console.log(`执行 ${file} 出错` + err);
