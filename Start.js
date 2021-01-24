@@ -45,7 +45,7 @@ function dateFormat() {
 }
 
 
-function sendNotificationIfNeed(flag, desp) {
+function sendNotificationIfNeed(text, desp) {
 
     if (!push_key) {
         console.log(`执行任务结束! ${push_key}`);
@@ -57,14 +57,7 @@ function sendNotificationIfNeed(flag, desp) {
         return;
     }
 
-    let text = "京东签到_" + dateFormat();
 
-    if (flag) {
-        text = text + "_成功日志";
-    } else {
-        text = text + "_错误日志";
-
-    }
 
     // 去除末尾的换行
     let SCKEY = push_key.replace(/[\r\n]/g, "")
@@ -100,7 +93,7 @@ function main() {
         if (file.startsWith("jd_") && file.endsWith(".js") && skip_list.indexOf(file) == -1) {
 
             try {
-                exec(`node ${file} >> ${result_path}`);
+                // exec(`node ${file} >> ${result_path}`);
 
             } catch (err) {
                 console.log(`执行 ${file} 出错` + err);
@@ -122,13 +115,13 @@ function main() {
                 notify += (strings[i] + "\r\n");
             }
         }
-        sendNotificationIfNeed(true, notify);
+        sendNotificationIfNeed("京东脚本执行结果通知", notify);
         return;
     }
 
     if (fs.existsSync(error_path)) {
         let error = fs.readFileSync(error_path, "utf8")
-        sendNotificationIfNeed(false, error)
+        sendNotificationIfNeed("[错误]京东脚本执行结果通知", error)
         return;
     }
 
