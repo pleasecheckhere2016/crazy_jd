@@ -1,27 +1,16 @@
-// version v0.0.1
-// create by zhihua
-// detail url: https://github.com/ruicky/jd_sign_bot
-
-const exec = require('child_process').execSync
 const fs = require('fs')
+const exec = require('child_process').execSync
 const rp = require('request-promise')
-const download = require('download')
 
-// 京东Cookie
-const cookie = process.env.JD_COOKIE
-// 京东Cookie
-const dual_cookie = process.env.JD_DUAL_COOKIE
-// Server酱SCKEY
+
 const push_key = process.env.PUSH_KEY
 
-// 京东脚本文件
-const js_url = 'https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_car.js'
-// 下载脚本路劲
-const js_path = './jd_car.js'
-// 脚本执行输出路劲
-const result_path = './result.txt'
-// 错误信息输出路劲
-const error_path = './error.txt'
+const result_path = "./result.txt"
+
+const error_path = "./error.txt"
+
+const js_path = "./jd_car.js"
+
 
 Date.prototype.Format = function (fmt) {
     var o = {
@@ -52,72 +41,93 @@ function dateFormat() {
     return t_Date.Format('yyyy.MM.dd')
 }
 
-function setupCookie() {
-    var js_content = fs.readFileSync(js_path, 'utf8')
-    js_content = js_content.replace(/var Key = ''/, `var Key = '${cookie}'`)
-    if (dual_cookie) {
-        js_content = js_content.replace(/var DualKey = ''/, `var DualKey = '${dual_cookie}'`)
-    }
-    fs.writeFileSync(js_path, js_content, 'utf8')
-}
 
-function sendNotificationIfNeed() {
+function sendNotificationIfNeed(flag, desp) {
 
     if (!push_key) {
-        console.log('执行任务结束!'); return;
+        console.log(`执行任务结束! ${push_key}`);
+        return;
     }
 
-    if (!fs.existsSync(result_path)) {
-        console.log('没有执行结果，任务中断!'); return;
+    if (!desp) {
+        console.log(`没有执行结果，任务中断，flag = ${flag}`);
+        return;
     }
 
     let text = "京东签到_" + dateFormat();
-    let desp = fs.readFileSync(result_path, "utf8")
+
+    if (flag) {
+        text = text + "_成功日志";
+    } else {
+        text = text + "_错误日志";
+
+    }
 
     // 去除末尾的换行
-    let SCKEY = push_key.replace(/[\r\n]/g,"")
+    let SCKEY = push_key.replace(/[\r\n]/g, "")
 
-    const options ={
-        uri:  `https://sc.ftqq.com/${SCKEY}.send`,
-        form: { text, desp },
+
+    const options = {
+        uri: `http://sc.ftqq.com/${SCKEY}.send`,
+        form: {text, desp},
         json: true,
         method: 'POST'
     }
 
-    rp.post(options).then(res=>{
+    rp.post(options).then(res => {
         const code = res['errno'];
         if (code == 0) {
             console.log("通知发送成功，任务结束！")
-        }
-        else {
+        } else {
             console.log(res);
             console.log("通知发送失败，任务中断！")
             fs.writeFileSync(error_path, JSON.stringify(res), 'utf8')
         }
-    }).catch((err)=>{
-        console.log("通知发送失败，任务中断！")
+    }).catch((err) => {
+        console.log("通知发送失败，任务中断！" + err)
         fs.writeFileSync(error_path, err, 'utf8')
     })
 }
 
 function main() {
+    // const files = fs.readdirSync("./")
+    //
+    // for (let i = 0; i < files.length; i++) {
+    //     const file = files[i]
+    //     if (file.startsWith("jd_") && file.endsWith(".js")) {
+    //
+    //         try {
+    //             console.log(`开始执行 ${file}`);
+    //             let jsPath = "./" + file;
+    //             exec(`node '${jsPath}' >> '${result_path}'`);
+    //
+    //             console.log(`结束执行 ${file}`);
+    //
+    //         } catch (err) {
+    //             console.log(`执行 ${file} 出错` + err);
+    //             fs.writeFileSync(error_path, err, 'utf8')
+    //         }
+    //     }
+    //
+    // }
 
-    if (!cookie) {
-        console.log('请配置京东cookie!'); return;
+
+    exec(`node jd_car.js >> ${result_path}`);
+
+
+
+    if (fs.existsSync(result_path)) {
+        let r1 = fs.readFileSync(result_path, "utf8")
+        sendNotificationIfNeed(true, r1);
+        return;
     }
 
-    // 1、下载脚本
-    download(js_url, './').then(res=>{
-        // 2、替换cookie
-        setupCookie()
-        // 3、执行脚本
-        exec(`node '${js_path}' >> '${result_path}'`);
-        // 4、发送推送
-        sendNotificationIfNeed()
-    }).catch((err)=>{
-        console.log('脚本文件下载失败，任务中断！');
-        fs.writeFileSync(error_path, err, 'utf8')
-    })
+    if (fs.existsSync(error_path)) {
+        let error = fs.readFileSync(error_path, "utf8")
+        sendNotificationIfNeed(false, error)
+        return;
+    }
+
 
 }
 
