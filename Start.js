@@ -93,27 +93,36 @@ function sendNotificationIfNeed(flag, desp) {
 }
 
 function main() {
-    const files = fs.readdirSync("./")
-
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i]
-        if (file.startsWith("jd_") && file.endsWith(".js") && skip_list.indexOf(file) == -1) {
-
-            try {
-                exec(`node ${file} >> ${result_path}`);
-
-            } catch (err) {
-                console.log(`执行 ${file} 出错` + err);
-                fs.writeFileSync(error_path, err, 'utf8')
-            }
-        }
-
-    }
+    // const files = fs.readdirSync("./")
+    //
+    // for (let i = 0; i < files.length; i++) {
+    //     const file = files[i]
+    //     if (file.startsWith("jd_") && file.endsWith(".js") && skip_list.indexOf(file) == -1) {
+    //
+    //         try {
+    //             exec(`node ${file} >> ${result_path}`);
+    //
+    //         } catch (err) {
+    //             console.log(`执行 ${file} 出错` + err);
+    //             fs.writeFileSync(error_path, err, 'utf8')
+    //         }
+    //     }
+    //
+    // }
 
 
     if (fs.existsSync(result_path)) {
         let r1 = fs.readFileSync(result_path, "utf8")
-        sendNotificationIfNeed(true, r1);
+        let strings = r1.split("\n");
+
+        let notify = "";
+
+        for (let i = 0; i < strings.length; i++) {
+            if (strings[i].indexOf("失败") > -1 || strings[i].indexOf("错误") > -1) {
+                notify += (strings[i] + "\r\n");
+            }
+        }
+        sendNotificationIfNeed(true, notify);
         return;
     }
 
