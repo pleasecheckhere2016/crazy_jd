@@ -90,30 +90,22 @@ function sendNotificationIfNeed(flag, desp) {
 }
 
 function main() {
-    // const files = fs.readdirSync("./")
-    //
-    // for (let i = 0; i < files.length; i++) {
-    //     const file = files[i]
-    //     if (file.startsWith("jd_") && file.endsWith(".js")) {
-    //
-    //         try {
-    //             console.log(`开始执行 ${file}`);
-    //             let jsPath = "./" + file;
-    //             exec(`node '${jsPath}' >> '${result_path}'`);
-    //
-    //             console.log(`结束执行 ${file}`);
-    //
-    //         } catch (err) {
-    //             console.log(`执行 ${file} 出错` + err);
-    //             fs.writeFileSync(error_path, err, 'utf8')
-    //         }
-    //     }
-    //
-    // }
+    const files = fs.readdirSync("./")
 
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+        if (file.startsWith("jd_") && file.endsWith(".js")) {
 
-    exec(`node jd_car.js >> ${result_path}`);
+            try {
+                exec(`node ${file} >> ${result_path}`);
 
+            } catch (err) {
+                console.log(`执行 ${file} 出错` + err);
+                fs.writeFileSync(error_path, err, 'utf8')
+            }
+        }
+
+    }
 
 
     if (fs.existsSync(result_path)) {
