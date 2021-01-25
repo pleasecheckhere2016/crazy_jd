@@ -38,7 +38,7 @@ jobs:
 
       - name: Run Script
         run: node Start.js
-        timeout-minutes: 30
+        timeout-minutes: 60
 
       - name: Upload result file
         uses: actions/upload-artifact@master
