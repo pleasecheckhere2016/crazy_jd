@@ -1,5 +1,5 @@
 
-const $ = new Env('Bootstrap');
+const $ = new Env('错误通知');
 
 const notifier = $.isNode() ? require('./sendNotify') : '';
 
