@@ -16,7 +16,6 @@ env:
   JD_COOKIE: ${{ secrets.JD_COOKIE }}
   JD_DUAL_COOKIE: ${{ secrets.JD_DUAL_COOKIE }}
   PUSH_KEY: ${{ secrets.PUSH_KEY }}
-  UPLOAD_BESULT_DIR: true
 
 jobs:
   build:
@@ -40,9 +39,17 @@ jobs:
         run: node Start.js
         timeout-minutes: 60
 
+      - name: Send Failed Push
+        run: node ExecuteOnWorkflowCancledOrFailed.js
+        if: ${{ failure() }}
+
+      - name: Send Cancelled Push
+        run: node ExecuteOnWorkflowCancledOrFailed.js
+        if: ${{ cancelled() }}
+
       - name: Upload result file
         uses: actions/upload-artifact@master
-        if: env.UPLOAD_BESULT_DIR == 'true'
+        if: ${{ always() }}
         with:
           name: result
           path: ./*.txt
