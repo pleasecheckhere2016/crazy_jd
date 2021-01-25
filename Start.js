@@ -55,7 +55,9 @@ function main() {
         if (file.startsWith("jd_") && file.endsWith(".js") && skip_list.indexOf(file) == -1) {
 
             try {
+                console.log(`开始执行脚本 ${file}`);
                 exec(`node ${file} >> ${result_path}`);
+                console.log(`脚本 ${file} 执行完成`);
 
             } catch (err) {
                 console.log(`执行 ${file} 出错` + err);
