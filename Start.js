@@ -9,7 +9,6 @@ const result_path = "./result.txt"
 
 const error_path = "./error.txt"
 
-const js_path = "./jd_car.js"
 
 const skip_list = "jd_crazy_joy_coin.js,jd_immortal.js,jd_nian.js,jd_nian_ar.js" +
     "jd_nian_wechat.js,jd_superMarket.js,jd_lotteryMachine.js,jd_family.js";
@@ -48,12 +47,13 @@ function dateFormat() {
 function sendNotificationIfNeed(text, desp) {
 
     if (!push_key) {
-        console.log(`执行任务结束! ${push_key}`);
+        console.log(`执行任务结束，未配置推送密钥，执行结果如下`);
+        console.log(desp);
         return;
     }
 
     if (!desp) {
-        console.log(`没有执行结果，任务中断，flag = ${flag}`);
+        console.log(`没有执行结果，任务中断，flag = ${text}`);
         return;
     }
 
