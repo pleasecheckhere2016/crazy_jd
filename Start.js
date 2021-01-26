@@ -14,7 +14,8 @@ const error_path = "./error.txt"
 
 
 const skip_list = "jd_crazy_joy_coin.js,jd_immortal.js,jd_nian.js,jd_nian_ar.js" +
-    "jd_nian_wechat.js,jd_superMarket.js,jd_lotteryMachine.js,jd_family.js";
+    "jd_nian_wechat.js,jd_superMarket.js,jd_lotteryMachine.js,jd_family.js," +
+    "jd_dreamFactory.js";
 
 
 Date.prototype.Format = function (fmt) {
