@@ -47,26 +47,33 @@ function dateFormat() {
     return t_Date.Format('yyyy.MM.dd')
 }
 
+function printENV() {
+    console.log(JSON.stringify(process.env));
+}
+
 
 function main() {
+
+    printENV();
+
     const files = fs.readdirSync("./")
 
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i]
-        if (file.startsWith("jd_") && file.endsWith(".js") && skip_list.indexOf(file) == -1) {
-
-            try {
-                console.log(`开始执行脚本 ${file}`);
-                exec(`node ${file} >> ${result_path}`);
-                console.log(`脚本 ${file} 执行完成`);
-
-            } catch (err) {
-                console.log(`执行 ${file} 出错` + err);
-                fs.writeFileSync(error_path, err, 'utf8')
-            }
-        }
-
-    }
+    // for (let i = 0; i < files.length; i++) {
+    //     const file = files[i]
+    //     if (file.startsWith("jd_") && file.endsWith(".js") && skip_list.indexOf(file) == -1) {
+    //
+    //         try {
+    //             console.log(`开始执行脚本 ${file}`);
+    //             exec(`node ${file} >> ${result_path}`);
+    //             console.log(`脚本 ${file} 执行完成`);
+    //
+    //         } catch (err) {
+    //             console.log(`执行 ${file} 出错` + err);
+    //             fs.writeFileSync(error_path, err, 'utf8')
+    //         }
+    //     }
+    //
+    // }
 
 
     if (fs.existsSync(result_path)) {
