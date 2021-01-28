@@ -16,6 +16,7 @@ env:
   JD_COOKIE: ${{ secrets.JD_COOKIE }}
   JD_DUAL_COOKIE: ${{ secrets.JD_DUAL_COOKIE }}
   PUSH_KEY: ${{ secrets.PUSH_KEY }}
+  PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
 
 jobs:
   build:
