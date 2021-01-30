@@ -73,8 +73,12 @@ async function getCanHelpPins(page) {
         $.get(options, async (err, resp, data) => {
             try {
                 var data = JSON.parse(data);
-                if (data.success != true || data.datas == null) {
-                    console.log(data)
+                if (data.success != true) {
+                    console.log('宠汪汪查询好友列表失败：' + data)
+                    return ;
+                }
+
+                if (data.datas == null) {
                     return ;
                 }
 
@@ -117,7 +121,7 @@ async function feedPets(url,friendName) {
             try {
                 var data = JSON.parse(data);
                 if (data.errorCode != 'help_ok') {
-                    console.log(data)
+                    console.log('宠汪汪帮助喂养失败：' + data)
                 } else {
                     console.log(`宠汪汪帮助喂养:[${friendName}]成功`)
                 }
