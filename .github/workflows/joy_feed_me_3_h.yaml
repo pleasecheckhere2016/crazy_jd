@@ -1,4 +1,4 @@
-name: JD_Sign_Action
+name: JD_JOY_FEED_AT_EVERY_3HOURS
 
 on:
   repository_dispatch:
