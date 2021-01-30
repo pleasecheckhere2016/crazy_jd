@@ -1,0 +1,57 @@
+name: JD_Sign_Action
+
+on:
+  repository_dispatch:
+  release:
+    types: published
+  # push:
+  #   branches:
+  #     - master
+  schedule:
+    - cron: 0 18 * * *
+  watch:
+    types: started
+
+env:
+  JD_COOKIE: ${{ secrets.JD_COOKIE }}
+  JD_DUAL_COOKIE: ${{ secrets.JD_DUAL_COOKIE }}
+  PUSH_KEY: ${{ secrets.PUSH_KEY }}
+  PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          check-latest: true
+
+      - name: Run install
+        run: npm install
+
+      - name: Run Script
+        run: node jd_joy_feedPets.js
+        timeout-minutes: 5
+
+      - name: Send Failed Push
+        run: node ExecuteOnWorkflowCancledOrFailed.js
+        if: ${{ failure() }}
+
+      - name: Send Cancelled Push
+        run: node ExecuteOnWorkflowCancledOrFailed.js
+        if: ${{ cancelled() }}
+
+      - name: Upload result file
+        uses: actions/upload-artifact@master
+        if: ${{ always() }}
+        with:
+          name: result
+          path: ./*.txt
+
