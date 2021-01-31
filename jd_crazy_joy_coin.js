@@ -489,6 +489,7 @@ function getCoin() {
               $.coin = data.data.totalCoinAmount;
             } else {
               $.coin = `获取当前金币数量失败`
+              $.log('获取当前金币数量失败 -> ' + JSON.stringify(data))
             }
             if (data.data && data.data.luckyBoxRecordId) {
               await openBox('LUCKY_BOX_DROP',data.data.luckyBoxRecordId)
