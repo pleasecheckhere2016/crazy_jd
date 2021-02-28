@@ -383,7 +383,7 @@ async function doHelp() {
       continue
     }
     await helpShare(plantUuid);
-    if ($.helpResult.code === '0') {
+    if ($.helpResult.code && $.helpResult.code === '0') {
       // console.log(`助力好友结果: ${JSON.stringify($.helpResult.data.helpShareRes)}`);
       if ($.helpResult.data.helpShareRes) {
         if ($.helpResult.data.helpShareRes.state === '1') {
@@ -713,6 +713,7 @@ function request(function_id, body = {}){
         if (err) {
           console.log('\n种豆得豆: API查询请求失败 ‼️‼️')
           console.log(`function_id:${function_id}`)
+          console.log(err);
           $.logErr(err);
         } else {
           data = JSON.parse(data);

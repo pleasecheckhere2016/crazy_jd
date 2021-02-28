@@ -184,7 +184,7 @@ async function all() {
             await JingRongDoll(Wait(stop), 'JRDoll', '京东金融-签壹', '4D25A6F482');
             await JingRongDoll(Wait(stop), 'XJDouble', '金融现金-双签', 'F68B2C3E71', '', '', '', 'xianjin'); //京东金融 现金双签
             await JingRongDoll(Wait(stop), 'JTDouble', '京东金贴-双签', '1DF13833F7'); //京东金融 金贴双签
-            await JDUserSignPre(Wait(stop), 'JDUnderwear', '京东商城-内衣', '4PgpL1xqPSW1sVXCJ3xopDbB1f69'); //京东内衣馆
+            // await JDUserSignPre(Wait(stop), 'JDUnderwear', '京东商城-内衣', '4PgpL1xqPSW1sVXCJ3xopDbB1f69'); //京东内衣馆
             await JDUserSignPre(Wait(stop), 'JDSuitcase', '京东商城-箱包', 'ZrH7gGAcEkY2gH8wXqyAPoQgk6t'); //京东箱包馆
             await JDUserSignPre(Wait(stop), 'JDClothing', '京东商城-服饰', '4RBT3H9jmgYg1k2kBnHF8NAHm7m8'); //京东服饰
             await JDUserSignPre(Wait(stop), 'JDSchool', '京东商城-校园', '2QUxWHx5BSCNtnBDjtt5gZTq7zdZ'); //京东校园
@@ -204,7 +204,7 @@ async function all() {
             await JDUserSignPre(Wait(stop), 'JDFineWine', '京东商城-酒饮', 'zGwAUzL3pVGjptBBGeYfpKjYdtX'); //京东酒饮馆
             await JDUserSignPre(Wait(stop), 'JDVege', '京东商城-菜场', 'Wcu2LVCFMkBP3HraRvb7pgSpt64'); //京东菜场
             await JDUserSignPre(Wait(stop), 'JDClean', '京东商城-清洁', '2Tjm6ay1ZbZ3v7UbriTj6kHy9dn6'); //京东清洁馆
-            await JDUserSignPre(Wait(stop), 'JDCare', '京东商城-个护', 'NJ1kd1PJWhwvhtim73VPsD1HwY3'); //京东个人护理馆
+            // await JDUserSignPre(Wait(stop), 'JDCare', '京东商城-个护', 'NJ1kd1PJWhwvhtim73VPsD1HwY3'); //京东个人护理馆
             await JDUserSignPre(Wait(stop), 'JDJewels', '京东商城-珠宝', 'zHUHpTHNTaztSRfNBFNVZscyFZU'); //京东珠宝馆
             await JingRongDoll(Wait(stop), 'JDDouble', '金融京豆-双签', 'F68B2C3E71', '', '', '', 'jingdou'); //京东金融 京豆双签
             await JingDongSpeedUp(Wait(stop)); //京东天天加速
