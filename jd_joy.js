@@ -291,61 +291,65 @@ async function petTask() {
         //   }
         // }
         //每日三餐
-        // if (item['taskType'] === 'ThreeMeals') {
-        //     console.log('-----每日三餐-----');
-        //     if (item['receiveStatus'] === 'unreceive') {
-        //         const ThreeMealsRes = await getFood('ThreeMeals');
-        //         if (ThreeMealsRes.success) {
-        //             if (ThreeMealsRes.errorCode === 'received') {
-        //                 console.log(`三餐结果领取成功`)
-        //                 message += `【三餐】领取成功，获得${ThreeMealsRes.data}g狗粮\n`;
-        //             }
-        //         }
-        //     }
-        // }
+        if (item['taskType'] === 'ThreeMeals') {
+            console.log('-----每日三餐-----');
+            if (item['receiveStatus'] === 'unreceive') {
+                const ThreeMealsRes = await getFood('ThreeMeals');
+                if (ThreeMealsRes.success) {
+                    if (ThreeMealsRes.errorCode === 'received') {
+                        console.log(`三餐结果领取成功`)
+                        message += `【三餐】领取成功，获得${ThreeMealsRes.data}g狗粮\n`;
+                    }
+                }
+            }
+        }
         //关注店铺
-        // if (item['taskType'] === 'FollowShop') {
-        //     console.log('-----关注店铺-----');
-        //     let shops = await getFollowShops();
-        //     for (let shop of shops.datas) {
-        //         const xx = await waitShopScan5Seconds(shop.shopId);
-        //         await $.wait(6000)
-        //         const followShopRes = await followShop(shop.shopId);
-        //         console.log(`关注店铺${shop.name}结果::${JSON.stringify(followShopRes)}`)
-        //     }
-        // }
+        if (item['taskType'] === 'FollowShop') {
+            console.log('-----关注店铺-----');
+            let shops = await getFollowShops();
+            for (let shop of shops.datas) {
+                const xx = await waitScan5Seconds("follow_shop",shop.shopId);
+                await $.wait(6000)
+                const followShopRes = await followShop(shop.shopId);
+                console.log(`关注店铺${shop.name}结果::${JSON.stringify(followShopRes)}`)
+            }
+        }
         //逛会场
         if (item['taskType'] === 'ScanMarket') {
             console.log('----逛会场----');
             const scanMarketList = item.scanMarketList;
             for (let scanMarketItem of scanMarketList) {
+                if (scanMarketItem.status) {
+                    continue;
+                }
                 let link = (scanMarketItem.marketLink == "" ? scanMarketItem.marketLinkH5 : scanMarketItem.marketLink)
                 const body = {
                     "marketLink": link,
                     "taskType": "ScanMarket"
                 };
-                const xx = await waitShopScan5Seconds(link);
+                const xx = await waitScan5Seconds("scan_market",link);
                 await $.wait(6000)
                 const scanMarketRes = await scanMarket('scan', body);
                 console.log(`逛会场-${scanMarketItem.marketName}结果::${JSON.stringify(scanMarketRes)}`)
             }
         }
         //浏览频道
-        // if (item['taskType'] === 'FollowChannel') {
-        //   console.log('----浏览频道----');
-        //   const followChannelList = item.followChannelList;
-        //   for (let followChannelItem of followChannelList) {
-        //     if (!followChannelItem.status) {
-        //       const body = {
-        //         "channelId": followChannelItem.channelId,
-        //         "taskType": "FollowChannel",
-        //         "reqSource": "weapp"
-        //       };
-        //       const scanMarketRes = await scanMarket('scan', body);
-        //       console.log(`浏览频道-${followChannelItem.channelName}结果::${JSON.stringify(scanMarketRes)}`)
-        //     }
-        //   }
-        // }
+        if (item['taskType'] === 'FollowChannel') {
+            console.log('----浏览频道----');
+            const followChannelList = item.followChannelList;
+            for (let followChannelItem of followChannelList) {
+                if (!followChannelItem.status) {
+                    const body = {
+                        "channelId": followChannelItem.channelId,
+                        "taskType": "FollowChannel"
+                    };
+                    const xx = await waitScan5Seconds("follow_channel", followChannelItem.channelId);
+                    await $.wait(5000);
+                    const scanMarketRes = await scanMarket('scan', body);
+                    console.log(`浏览频道-${followChannelItem.channelName}结果::${JSON.stringify(scanMarketRes)}`)
+                }
+            }
+        }
         //关注商品
         // if (item['taskType'] === 'FollowGood') {
         //   console.log('----关注商品----');
@@ -591,13 +595,13 @@ function getFollowShops() {
     })
 }
 
-function waitShopScan5Seconds(spid) {
+function waitScan5Seconds(iconCode, spid) {
     let keycode = "98c14c997fde50cc18bdefecfd48ceb7";
     let lkt = new Date().getTime() + "";
     let lks = CryptoJS.MD5("_" + keycode + "_" + lkt).toString();
 
     return new Promise(resolve => {
-        const url = `https://jdjoy.jd.com/common/pet/icon/click?iconCode=follow_shop&linkAddr=${encodeURI(spid)}&reqSource=h5&lks=${lks}&lkt=${lkt}`;
+        const url = `https://jdjoy.jd.com/common/pet/icon/click?iconCode=${iconCode}&reqSource=h5&lks=${lks}&lkt=${lkt}&linkAddr=${encodeURI(spid)}`;
         const reqSource = 'h5';
         const host = 'jdjoy.jd.com';
         $.get(taskUrl(url, host, reqSource), (err, resp, data) => {
