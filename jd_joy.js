@@ -290,6 +290,25 @@ async function petTask() {
         //     console.log(`领取助力后的狗粮结果::${JSON.stringify(InviteUser)}`);
         //   }
         // }
+
+        //关注商品
+        if (item['taskType'] === 'FollowGood') {
+          console.log('----关注商品----');
+          const followGoodList = item.followGoodList;
+          for (let followGoodItem of followGoodList) {
+            if (!followGoodItem.status) {
+              const body = `sku=${followGoodItem.sku}&reqSource=h5`;
+              let xxx = await waitScan5Seconds("follow_good",followGoodItem.sku)
+                await $.wait(5000)
+              const scanMarketRes = await scanMarket('followGood', body, 'application/x-www-form-urlencoded');
+              // const scanMarketRes = await appScanMarket('followGood', `sku=${followGoodItem.sku}&reqSource=h5`, 'application/x-www-form-urlencoded');
+              console.log(`关注商品-${followGoodItem.skuName}结果::${JSON.stringify(scanMarketRes)}`)
+            }
+          }
+        }
+
+
+
         //每日三餐
         if (item['taskType'] === 'ThreeMeals') {
             console.log('-----每日三餐-----');
@@ -350,19 +369,7 @@ async function petTask() {
                 }
             }
         }
-        //关注商品
-        // if (item['taskType'] === 'FollowGood') {
-        //   console.log('----关注商品----');
-        //   const followGoodList = item.followGoodList;
-        //   for (let followGoodItem of followGoodList) {
-        //     if (!followGoodItem.status) {
-        //       const body = `sku=${followGoodItem.sku}&reqSource=h5`;
-        //       const scanMarketRes = await scanMarket('followGood', body, 'application/x-www-form-urlencoded');
-        //       // const scanMarketRes = await appScanMarket('followGood', `sku=${followGoodItem.sku}&reqSource=h5`, 'application/x-www-form-urlencoded');
-        //       console.log(`关注商品-${followGoodItem.skuName}结果::${JSON.stringify(scanMarketRes)}`)
-        //     }
-        //   }
-        // }
+
         //看激励视频
         // if (item['taskType'] === 'ViewVideo') {
         //   console.log('----浏览频道----');
@@ -468,10 +475,15 @@ function AesEncrypt(e) {
 function scanMarket(type, body, cType = 'application/json') {
     let lkt = new Date().getTime();
     let keycode = "98c14c997fde50cc18bdefecfd48ceb7";
-    let lks = CryptoJS.MD5(Base64(AesEncrypt("" + JSON.stringify(sortByLetter(body)))) + "_" + keycode + "_" + lkt).toString();
+    let lks = "";
+    if (cType.indexOf("json") > 0) {
+        lks = CryptoJS.MD5(Base64(AesEncrypt("" + JSON.stringify(sortByLetter(body)))) + "_" + keycode + "_" + lkt).toString();
+    } else {
+        lks = CryptoJS.MD5("_" + keycode + "_" + lkt).toString();
+    }
 
     return new Promise(resolve => {
-        const url = `https://jdjoy.jd.com/common/pet/scan?reqSource=h5&lks=${lks}&lkt=${lkt} `;
+        const url = `https://jdjoy.jd.com/common/pet/${type}?reqSource=h5&lks=${lks}&lkt=${lkt} `;
         const host = `jdjoy.jd.com`;
         const reqSource = 'h5';
         if (cType === 'application/json') {
@@ -492,6 +504,8 @@ function scanMarket(type, body, cType = 'application/json') {
         })
     })
 }
+
+
 
 //app逛会场
 function appScanMarket(type, body) {
