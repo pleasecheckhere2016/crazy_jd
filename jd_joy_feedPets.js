@@ -25,6 +25,7 @@ const $ = new Env('宠汪汪🐕喂食');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+let CryptoJS = require('crypto-js')
 
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
@@ -44,7 +45,8 @@ if ($.isNode()) {
 }
 let jdNotify = true;//是否开启静默运行。默认true开启
 let message = '', subTitle = '';
-const JD_API_HOST = 'https://jdjoy.jd.com'
+//GET https://jdjoy.jd.com/common/pet/feed?feedCount=10&reqSource=h5&lks=95f1b3eda64c084be6c50f706a712708&lkt=1614583492615 HTTP/1.1
+const JD_API_HOST = 'https://jdjoy.jd.com/common/pet/feed'
 let FEED_NUM = ($.getdata('joyFeedCount') * 1) || 10;   //喂食数量默认10g,可选 10,20,40,80 , 其他数字不可.
 
 !(async () => {
@@ -103,8 +105,13 @@ function feedPets(feedNum) {
   return new Promise(resolve => {
     console.log(`您设置的喂食数量::${FEED_NUM}g\n`);
     console.log(`实际的喂食数量::${feedNum}g\n`);
+    let lkt = new Date().getTime();
+    let keycode = "98c14c997fde50cc18bdefecfd48ceb7";
+
+    let lks = CryptoJS.MD5("_" + keycode + "_" + lkt).toString();
+
     const options = {
-      url: `${JD_API_HOST}/pet/feed?feedCount=${feedNum}`,
+      url: `${JD_API_HOST}?feedCount=${feedNum}&reqSource=h5&lks=${lks}&lkt=${lkt}`,
       headers: {
         'Cookie': cookie,
         'reqSource': 'h5',
