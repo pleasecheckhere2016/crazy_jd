@@ -28,6 +28,7 @@ const $ = new Env('宠汪汪');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+let CryptoJS = require('crypto-js')
 
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
@@ -620,9 +621,13 @@ function feedPets(feedNum) {
   })
 }
 function getPetTaskConfig() {
+  let keycode = "98c14c997fde50cc18bdefecfd48ceb7";
+  let lkt = new Date().getTime() + "";
+
+  let lks = CryptoJS.MD5("_" + keycode + "_" + lkt).toString();
   return new Promise(resolve => {
-    const url = `${weAppUrl}/getPetTaskConfig?reqSource=weapp`;
-    const host = `draw.jdfcloud.com`;
+    const url = `https://jdjoy.jd.com/common/pet/getPetTaskConfig?reqSource=h5&lks=${lks}&lkt=${lkt}`;
+    const host = `jdjoy.jd.com`;
     const reqSource = 'weapp';
     $.get(taskUrl(url, host, reqSource), (err, resp, data) => {
       try {
