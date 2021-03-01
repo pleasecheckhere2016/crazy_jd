@@ -1033,8 +1033,7 @@ function taskUrl(url, Host, reqSource) {
                 keepAliveMsecs: 1000,
                 maxSockets: 256,
                 maxFreeSockets: 256,
-                scheduling: 'lifo',
-                proxy: 'http://localhost:6868'
+                scheduling: 'lifo'
             })
         }
     }
