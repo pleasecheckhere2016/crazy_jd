@@ -165,11 +165,18 @@ function feedPets(feedNum) {
   })
 }
 
+
+
 //三餐
 function ThreeMeals() {
+
+  let keycode = "98c14c997fde50cc18bdefecfd48ceb7";
+  let lkt = new Date().getTime() + "";
+  let lks = CryptoJS.MD5("_" + keycode + "_" + lkt).toString();
+
   return new Promise(resolve => {
     const options = {
-      url: `${JD_API_HOST}/pet/getFood?taskType=ThreeMeals`,
+      url: `https://jdjoy.jd.com/common/pet/getFood?reqSource=h5&lks=${lks}&lkt=${lkt}&taskType=ThreeMeals`,
       headers: {
         'Cookie': cookie,
         'reqSource': 'h5',
@@ -199,6 +206,9 @@ function ThreeMeals() {
     })
   })
 }
+
+
+
 function jsonParse(str) {
   if (typeof str == "string") {
     try {
