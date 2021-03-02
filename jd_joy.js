@@ -325,8 +325,7 @@ async function petTask() {
         //关注店铺
         if (item['taskType'] === 'FollowShop') {
             console.log('-----关注店铺-----');
-            let shops = await getFollowShops();
-            for (let shop of shops.datas) {
+            for (let shop of item.followShops) {
                 const xx = await waitScan5Seconds("follow_shop",shop.shopId);
                 await $.wait(6000)
                 const followShopRes = await followShop(shop.shopId);
@@ -1048,7 +1047,7 @@ function taskPostUrl(url, body, reqSource, Host, ContentType) {
             'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0"),
             'Content-Type': ContentType,
             'Host': Host,
-            'Referer': 'https://jdjoy.jd.com/pet/index',
+            'Referer': 'https://h5.m.jd.com/babelDiy/Zeus/2wuqXrZrhygTQzYA7VufBEpj4amH/index.html?babelChannel=ttt12&lng=114.045242&lat=22.51808&sid=55876513b882a8a331caca822371d6aw&un_area=19_1607_4773_62121',
             'Accept-Language': 'zh-cn',
             'Accept-Encoding': 'gzip, deflate, br',
         }
