@@ -28,7 +28,7 @@
 | 长期   | 东东工厂                      | [jd_jdfactory.js](https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_jdfactory.js)           |
 | 长期   | 京东赚赚                      | [jd_jdzz.js](https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_jdzz.js)                     |
 | 长期   | 宠汪汪单独喂食             | [jd_joy_feedPets.js](https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_joy_feedPets.js)     |
-| 长期   | 宠汪汪强制为好友助力（iOS端专用） | [jd_joy_help.js](https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_joy_help.js)             |
+| 长期   | 宠汪汪强制为好友助力（iOS端专用） | [bk_jd_joy_help.js](https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_joy_help.js)             |
 | 长期   | 宠汪汪聚宝盆辅助脚本（iOS端专用） | [jd_petTreasureBox.js](https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_petTreasureBox.js) |
 | 长期   | 宠汪汪兑换奖品             | [jd_joy_reward.js](https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_joy_reward.js)         |
 | 长期   | 宠汪汪赛跑助力             | [jd_joy_run.js](https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_joy_run.js)               |
